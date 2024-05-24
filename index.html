@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <br><br>
+    <div class="cont">
+        <div class="form sign-in">
+            <h2>Welcome</h2>
+            <label>
+                <span style="color: black;">Username</span>
+                <input type="email" required />
+            </label>
+            <label>
+                <span style="color: black;">Password</span>
+                <input type="password" required />
+            </label>
+            <button type="button" class="submit sign-in-btn">Sign In</button>
+        </div>
+        <div class="sub-cont">
+            <div class="img">
+                <div class="img__text m--up">
+                    <h3>Don't have an account? Please Sign up!</h3>
+                </div>
+                <div class="img__text m--in">
+                    <h3>If you already have an account, just sign in.</h3>
+                </div>
+                <div class="img__btn">
+                    <span class="m--up">Sign Up</span>
+                    <span class="m--in">Sign In</span>
+                </div>
+            </div>
+            <div class="form sign-up">
+                <h2>Create your Account</h2>
+                <label>
+                    <span style="color: black;">Name</span>
+                    <input type="text" required/>
+                </label>
+                <label>
+                    <span style="color: black;">Username</span>
+                    <input type="email" required/>
+                </label>
+                <label>
+                    <span style="color: black;">Password</span>
+                    <input type="password" required/>
+                </label>
+                <button type="button" class="submit sign-up-btn">Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between sign-in and sign-up forms
+        document.querySelector('.img__btn').addEventListener('click', function() {
+            document.querySelector('.cont').classList.toggle('s--signup');
+        });
+
+        // Array to store email and password pairs
+        var credentials = [{email: "admin", password: "admin"}];
+
+        // Function to handle Sign In button click
+        document.querySelector('.sign-in-btn').addEventListener('click', function(event) {
+            // Get the entered email and password
+            var email = document.querySelector('.sign-in input[type="email"]').value;
+            var password = document.querySelector('.sign-in input[type="password"]').value;
+
+            // Ensure both fields are filled
+            if (!email || !password) {
+                alert("Please fill in both fields.");
+                return;
+            }
+
+            // Check if the entered email and password match any credentials
+            var isValid = credentials.some(function(credential) {
+                return credential.email === email && credential.password === password;
+            });
+
+            // If credentials are valid, proceed to game.html
+            if (isValid) {
+                window.location.href = "game.html";
+            } else {
+                // If credentials are invalid, display an error message or prevent default action
+                alert("Incorrect email or password. Please try again.");
+                event.preventDefault();
+            }
+        });
+
+        // Function to handle Sign Up button click
+        document.querySelector('.sign-up-btn').addEventListener('click', function(event) {
+            // Get the entered name, email, and password
+            var name = document.querySelector('.sign-up input[type="text"]').value;
+            var email = document.querySelector('.sign-up input[type="email"]').value;
+            var password = document.querySelector('.sign-up input[type="password"]').value;
+
+            // Ensure all fields are filled
+            if (!name || !email || !password) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Check if the email already exists in the credentials array
+            var emailExists = credentials.some(function(credential) {
+                return credential.email === email;
+            });
+
+            if (emailExists) {
+                alert("Email already exists. Please use a different email.");
+                return;
+            }
+
+            // Add the new account to the credentials array
+            credentials.push({email: email, password: password});
+            alert("Account created successfully. Please sign in.");
+
+            // Automatically switch to the sign-in form after sign-up
+            document.querySelector('.cont').classList.remove('s--signup');
+        });
+    </script>
+</body>
+</html>
